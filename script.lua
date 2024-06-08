@@ -248,18 +248,6 @@ function BackpackUI.OnChildRemoved:Connect(funct)
 	end
 	return tab
 end
---only works for prison life i think
-function BackpackUI.SetGunStates:Connect(funct)
-	local module = require(module)
-	for _,state in pairs(tbl) do
-		coroutine.wrap(function()
-			if module[state[1]] then
-				module[state[1]] = state[2]
-			end
-		end)()
-		
-	end
-end
 
 BackpackUI.Connections = {
 	lp.CharacterAdded:Connect(function()
