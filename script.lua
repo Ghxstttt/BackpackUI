@@ -98,7 +98,7 @@ local Pos2 = UDim2.new(0.5, 0, 0.479999989, 0)
 
 local Color1 = Color3.fromRGB(0, 0, 0)
 local Color2 = BackpackUI.EquipColor
-function equipOrUnequip(tool)
+local function equipOrUnequip(tool)
 	if tool then
 		local char = lp.Character
 		local backpack = lp.Backpack
@@ -113,7 +113,7 @@ function equipOrUnequip(tool)
 		end
 	end
 end
-function UpFrame(Frame)
+local function UpFrame(Frame)
 	local f2 = Frame.SlotFrame
 	if BackpackUI.Animations == true then
 		ts:Create(f2, TweenInfo.new(BackpackUI.EquipAnimTime), {BackgroundColor3 = Color2}):Play()
@@ -123,7 +123,7 @@ function UpFrame(Frame)
 		f2.BackgroundColor3 = Color2
 	end
 end
-function DownFrame(Frame)
+local function DownFrame(Frame)
 	local f2 = Frame.SlotFrame
 	if BackpackUI.Animations == true then
 		ts:Create(f2, TweenInfo.new(BackpackUI.EquipAnimTime), {BackgroundColor3 = Color1}):Play()
@@ -134,7 +134,7 @@ function DownFrame(Frame)
 	end
 end
 BackpackUI.BConnection = nil
-function tool(child, backpack)
+local function tool(child, backpack)
 	if not table.find(BackpackUI.Currentbackpack, child) then
 		table.insert(BackpackUI.Currentbackpack, child)
 		for i,funct in pairs(BackpackUI.OnChildAdded) do
@@ -187,7 +187,7 @@ function tool(child, backpack)
 		end
 	end
 end
-function scriptbackpack(backpack)
+local function scriptbackpack(backpack)
 	for _,v in pairs(Base:GetChildren()) do
 		if v:IsA("Frame") then
 			v:Destroy()
@@ -249,7 +249,7 @@ function BackpackUI.OnChildRemoved:Connect(funct)
 	return tab
 end
 --only works for prison life i think
-function setgunstates(gun, module, tbl)
+function BackpackUI.SetGunStates:Connect(funct)
 	local module = require(module)
 	for _,state in pairs(tbl) do
 		coroutine.wrap(function()
