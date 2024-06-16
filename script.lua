@@ -150,12 +150,10 @@ end
 local function slotdisponible()
     for _,v in pairs(Base:GetChildren()) do
         if v:IsA("Frame") then
-            if v.LayoutOrder == slotNumber then
-                for i = 1,9 do
-                    print(BackpackUI:GetToolNameInSlot(i))
-                    if BackpackUI:GetToolNameInSlot(i) == nil then
-                        return i
-                    end
+            for i = 1,9 do
+                print(BackpackUI:GetToolNameInSlot(i))
+                if BackpackUI:GetToolNameInSlot(i) == nil then
+                    return i
                 end
             end
         end
