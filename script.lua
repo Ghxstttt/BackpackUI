@@ -175,10 +175,14 @@ local function tool(child, backpack)
 		local Slot = Frame:Clone()
 		Slot.Parent = Base
 		local slotNumber = table.find(BackpackUI.Slots, child.Name)
+        for i,v in pairs(BackpackUI.Slots) do
+            print(tostring(i)..", "..v)
+        end
 		if slotNumber then
+            print(slotNumber)
             local oldGun = BackpackUI.CurrentSlots[slotNumber]
             local gg = BackpackUI:GetToolNameInSlot(slotNumber)
-            if gg and oldGun then
+            if gg and oldGun and oldGun ~= child then
                 local slotdisp = slotdisponible()
                 if slotdisp == 100 then
                     gg.Frame.LayoutOrder = 10000
