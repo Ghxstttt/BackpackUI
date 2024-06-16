@@ -192,6 +192,7 @@ local function tool(child, backpack)
                 end
                 
             end
+            print(slotNumber, child.Name)
 			BackpackUI.CurrentSlots[slotNumber] = child
 			Slot.LayoutOrder = slotNumber
 			Slot.SlotFrame.SlotNumber.Text = slotNumber
