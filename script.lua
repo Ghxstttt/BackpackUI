@@ -133,6 +133,18 @@ local function DownFrame(Frame)
 		f2.BackgroundColor3 = Color1
 	end
 end
+local function slotdisponible()
+    for _,v in pairs(Base) do
+        if v.LayoutOrder == slotNumber then
+            for i = 1,9 do
+                if BackpackUI:GetToolNameInSlot(i) == nil then
+                    return i
+                end
+            end
+        end
+    end
+    return 100
+end
 BackpackUI.BConnection = nil
 local function tool(child, backpack)
 	if not table.find(BackpackUI.Currentbackpack, child) then
@@ -148,12 +160,30 @@ local function tool(child, backpack)
 		Slot.Parent = Base
 		local slotNumber = table.find(BackpackUI.Slots, child.Name)
 		if slotNumber then
+            local gg = BackpackUI:GetToolNameInSlot(slotNumber)
+            if gg then
+                local slotdisp = slotdisponible()
+                if slotdisp == 100 then
+                    gg.Frame.LayoutOrder = 10000
+                    gg.Frame.SlotFrame.SlotNumber.Text = "?"
+                else
+                    gg.Frame.LayoutOrder = slotdisp
+                    gg.Frame.SlotFrame.SlotNumber.Text = slotdisp
+                end
+            end
 			BackpackUI.CurrentSlots[slotNumber] = child
 			Slot.LayoutOrder = slotNumber
 			Slot.SlotFrame.SlotNumber.Text = slotNumber
 		else
-			Slot.LayoutOrder = 10000
-			Slot.SlotFrame.SlotNumber.Text = "?"
+            local slotdisp = slotdisponible()
+            if slotdisp == 100 then
+                Slot.LayoutOrder = 10000
+                Slot.SlotFrame.SlotNumber.Text = "?"
+            else
+                Slot.LayoutOrder = slotdisp
+                Slot.SlotFrame.SlotNumber.Text = slotdisp
+            end
+			
 		end
 		Slot.SlotFrame.ToolName.Text = child.Name
 		Slot.SlotFrame.MouseButton1Down:connect(function()
@@ -282,6 +312,7 @@ BackpackUI.Connections = {
 
 	end)
 }
+
 function BackpackUI:SetSlot(Name, Number)
 	if tostring(Name) and tonumber(Number) then
 		local find = table.find(BackpackUI.Slots, Name)
@@ -290,6 +321,16 @@ function BackpackUI:SetSlot(Name, Number)
 		end
 		BackpackUI.Slots[Number] = Name
 	end
+end
+function BackpackUI:GetToolNameInSlot(Number)
+    if tonumber(Number) then
+        for _,Slot in pairs(Base) do
+            if Slot.LayoutOrder == Number then
+                return {Frame = Slot, Name = Slot.SlotFrame.ToolName.Text}
+            end
+        end
+    end
+	return nil
 end
 function BackpackUI:Disconnect()
 	for _,conn in pairs(BackpackUI.Connections) do
