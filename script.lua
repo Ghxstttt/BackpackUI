@@ -138,6 +138,7 @@ function BackpackUI:GetToolNameInSlot(Number)
         for _,Slot in pairs(Base:GetChildren()) do
             if Slot:IsA("Frame") then
                 if Slot.LayoutOrder == Number then
+                    print(Slot)
                     return {Frame = Slot, Name = Slot.SlotFrame.ToolName.Text}
                 end
             end
@@ -151,6 +152,7 @@ local function slotdisponible()
         if v:IsA("Frame") then
             if v.LayoutOrder == slotNumber then
                 for i = 1,9 do
+                    print(BackpackUI:GetToolNameInSlot(i))
                     if BackpackUI:GetToolNameInSlot(i) == nil then
                         return i
                     end
