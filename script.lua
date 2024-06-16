@@ -133,37 +133,6 @@ local function DownFrame(Frame)
 		f2.BackgroundColor3 = Color1
 	end
 end
-function BackpackUI:GetToolNameInSlot(Number)
-    if tonumber(Number) then
-        for _,Slot in pairs(Base:GetChildren()) do
-            if Slot:IsA("Frame") then
-                if Slot.LayoutOrder == Number then
-                    print(Slot)
-                    return {Frame = Slot, Name = Slot.SlotFrame.ToolName.Text}
-                end
-            end
-           
-        end
-    end
-	return nil
-end
-local function slotdisponible(exclude)
-    for _,v in pairs(Base:GetChildren()) do
-        if v:IsA("Frame") then
-            for i = 1,9 do
-                if not exclude or (exclude and not table.find(exclude, i)) then
-                    print(BackpackUI:GetToolNameInSlot(i))
-                    if BackpackUI:GetToolNameInSlot(i) == nil then
-                        return i
-                    end
-                end
-                
-            end
-        end
-        
-    end
-    return 100
-end
 BackpackUI.BConnection = nil
 local function tool(child, backpack)
 	if not table.find(BackpackUI.Currentbackpack, child) then
@@ -178,44 +147,13 @@ local function tool(child, backpack)
 		local Slot = Frame:Clone()
 		Slot.Parent = Base
 		local slotNumber = table.find(BackpackUI.Slots, child.Name)
-        for i,v in pairs(BackpackUI.Slots) do
-            print(tostring(i)..", "..v)
-        end
-        
 		if slotNumber then
-            print(slotNumber)
-            local oldGun = BackpackUI.CurrentSlots[slotNumber]
-            local gg = BackpackUI:GetToolNameInSlot(slotNumber)
-            if gg and oldGun and oldGun ~= child then
-                local slotdisp = slotdisponible({slotnumber})
-                if slotdisp == 100 then
-                    gg.Frame.LayoutOrder = 10000
-                    gg.Frame.SlotFrame.SlotNumber.Text = "?"
-                    BackpackUI.CurrentSlots[slotNumber] = nil
-                else
-                    gg.Frame.LayoutOrder = slotdisp
-                    gg.Frame.SlotFrame.SlotNumber.Text = slotdisp
-                    BackpackUI.CurrentSlots[slotNumber] = nil
-                    BackpackUI.CurrentSlots[slotdisp] = oldGun
-                end
-                
-            end
-            print(slotNumber, child.Name)
 			BackpackUI.CurrentSlots[slotNumber] = child
 			Slot.LayoutOrder = slotNumber
 			Slot.SlotFrame.SlotNumber.Text = slotNumber
 		else
-            local slotdisp = slotdisponible()
-            if slotdisp == 100 then
-                Slot.LayoutOrder = 10000
-                Slot.SlotFrame.SlotNumber.Text = "?"
-            else
-                Slot.LayoutOrder = slotdisp
-                Slot.SlotFrame.SlotNumber.Text = slotdisp
-            end
-			BackpackUI.CurrentSlots[slotdisp] = child
-			Slot.LayoutOrder = slotdisp
-			Slot.SlotFrame.SlotNumber.Text = slotdisp
+			Slot.LayoutOrder = 10000
+			Slot.SlotFrame.SlotNumber.Text = "?"
 		end
 		Slot.SlotFrame.ToolName.Text = child.Name
 		Slot.SlotFrame.MouseButton1Down:connect(function()
@@ -344,7 +282,6 @@ BackpackUI.Connections = {
 
 	end)
 }
-
 function BackpackUI:SetSlot(Name, Number)
 	if tostring(Name) and tonumber(Number) then
 		local find = table.find(BackpackUI.Slots, Name)
@@ -354,7 +291,6 @@ function BackpackUI:SetSlot(Name, Number)
 		BackpackUI.Slots[Number] = Name
 	end
 end
-
 function BackpackUI:Disconnect()
 	for _,conn in pairs(BackpackUI.Connections) do
 		conn:Disconnect()
