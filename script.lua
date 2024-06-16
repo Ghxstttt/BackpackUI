@@ -135,7 +135,7 @@ local function DownFrame(Frame)
 end
 function BackpackUI:GetToolNameInSlot(Number)
     if tonumber(Number) then
-        for _,Slot in pairs(CurrentSlots) do
+        for _,Slot in pairs(Base:GetChildren) do
             if Slot:IsA("Frame") then
                 if Slot.LayoutOrder == Number then
                     print(Slot)
