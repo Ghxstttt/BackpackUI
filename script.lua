@@ -135,7 +135,7 @@ local function DownFrame(Frame)
 end
 function BackpackUI:GetToolNameInSlot(Number)
     if tonumber(Number) then
-        for _,Slot in pairs(Base:GetChildren()) do
+        for _,Slot in pairs(CurrentSlots) do
             if Slot:IsA("Frame") then
                 if Slot.LayoutOrder == Number then
                     print(Slot)
@@ -176,17 +176,21 @@ local function tool(child, backpack)
 		Slot.Parent = Base
 		local slotNumber = table.find(BackpackUI.Slots, child.Name)
 		if slotNumber then
+            local oldGun = BackpackUI.CurrentSlots[slotNumber]
             local gg = BackpackUI:GetToolNameInSlot(slotNumber)
-            if gg then
+            if gg and oldGun then
                 local slotdisp = slotdisponible()
                 if slotdisp == 100 then
                     gg.Frame.LayoutOrder = 10000
                     gg.Frame.SlotFrame.SlotNumber.Text = "?"
+                    BackpackUI.CurrentSlots[slotNumber] = nil
                 else
                     gg.Frame.LayoutOrder = slotdisp
                     gg.Frame.SlotFrame.SlotNumber.Text = slotdisp
+                    BackpackUI.CurrentSlots[slotNumber] = nil
+                    BackpackUI.CurrentSlots[slotdisp] = oldGun
                 end
-                BackpackUI.CurrentSlots[slotdisp] = child
+                
             end
 			BackpackUI.CurrentSlots[slotNumber] = child
 			Slot.LayoutOrder = slotNumber
