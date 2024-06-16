@@ -147,14 +147,17 @@ function BackpackUI:GetToolNameInSlot(Number)
     end
 	return nil
 end
-local function slotdisponible()
+local function slotdisponible(exclude)
     for _,v in pairs(Base:GetChildren()) do
         if v:IsA("Frame") then
             for i = 1,9 do
-                print(BackpackUI:GetToolNameInSlot(i))
-                if BackpackUI:GetToolNameInSlot(i) == nil then
-                    return i
+                if not exclude or (exclude and not table.find(exclude, i)) then
+                    print(BackpackUI:GetToolNameInSlot(i))
+                    if BackpackUI:GetToolNameInSlot(i) == nil then
+                        return i
+                    end
                 end
+                
             end
         end
         
@@ -178,12 +181,13 @@ local function tool(child, backpack)
         for i,v in pairs(BackpackUI.Slots) do
             print(tostring(i)..", "..v)
         end
+        
 		if slotNumber then
             print(slotNumber)
             local oldGun = BackpackUI.CurrentSlots[slotNumber]
             local gg = BackpackUI:GetToolNameInSlot(slotNumber)
             if gg and oldGun and oldGun ~= child then
-                local slotdisp = slotdisponible()
+                local slotdisp = slotdisponible({slotnumber})
                 if slotdisp == 100 then
                     gg.Frame.LayoutOrder = 10000
                     gg.Frame.SlotFrame.SlotNumber.Text = "?"
