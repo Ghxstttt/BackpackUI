@@ -133,8 +133,18 @@ local function DownFrame(Frame)
 		f2.BackgroundColor3 = Color1
 	end
 end
+function BackpackUI:GetToolNameInSlot(Number)
+    if tonumber(Number) then
+        for _,Slot in pairs(Base:GetChildren()) do
+            if Slot.LayoutOrder == Number then
+                return {Frame = Slot, Name = Slot.SlotFrame.ToolName.Text}
+            end
+        end
+    end
+	return nil
+end
 local function slotdisponible()
-    for _,v in pairs(Base) do
+    for _,v in pairs(Base:GetChildren()) do
         if v.LayoutOrder == slotNumber then
             for i = 1,9 do
                 if BackpackUI:GetToolNameInSlot(i) == nil then
@@ -322,16 +332,7 @@ function BackpackUI:SetSlot(Name, Number)
 		BackpackUI.Slots[Number] = Name
 	end
 end
-function BackpackUI:GetToolNameInSlot(Number)
-    if tonumber(Number) then
-        for _,Slot in pairs(Base) do
-            if Slot.LayoutOrder == Number then
-                return {Frame = Slot, Name = Slot.SlotFrame.ToolName.Text}
-            end
-        end
-    end
-	return nil
-end
+
 function BackpackUI:Disconnect()
 	for _,conn in pairs(BackpackUI.Connections) do
 		conn:Disconnect()
