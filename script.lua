@@ -186,6 +186,7 @@ local function tool(child, backpack)
                     gg.Frame.LayoutOrder = slotdisp
                     gg.Frame.SlotFrame.SlotNumber.Text = slotdisp
                 end
+                BackpackUI.CurrentSlots[slotdisp] = child
             end
 			BackpackUI.CurrentSlots[slotNumber] = child
 			Slot.LayoutOrder = slotNumber
@@ -199,7 +200,9 @@ local function tool(child, backpack)
                 Slot.LayoutOrder = slotdisp
                 Slot.SlotFrame.SlotNumber.Text = slotdisp
             end
-			
+			BackpackUI.CurrentSlots[slotdisp] = child
+			Slot.LayoutOrder = slotdisp
+			Slot.SlotFrame.SlotNumber.Text = slotdisp
 		end
 		Slot.SlotFrame.ToolName.Text = child.Name
 		Slot.SlotFrame.MouseButton1Down:connect(function()
